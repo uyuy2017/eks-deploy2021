@@ -25,29 +25,7 @@ pipeline {
       }
     }
     
-  stage('create kubecontext file') {
-      steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
-          sh '''
-                     aws eks update-kubeconfig --name jenkinstest2
-                   '''
-        }
-
-      }
-    }
-
-    stage('Set current kubectl context') {
-      steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
-          sh '''
-                      kubectl config use-context arn:aws:eks:us-east-2:332819193662:cluster/jenkinstest2
-                   '''
-        }
-
-      }
-    }
-
-    stage('create replication controller for blue app') {
+     stage('create replication controller for blue app') {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''

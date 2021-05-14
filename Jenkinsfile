@@ -49,7 +49,7 @@ pipeline {
 
     stage('create replication controller for blue app') {
       steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'MyCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh '''
                       kubectl apply -f ./blue-replication-controller.yaml
                    '''
@@ -60,7 +60,7 @@ pipeline {
 
     stage('create replication controller for green app') {
       steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'MyCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh '''
                       kubectl apply -f ./green-replication-controller.yaml
                    '''

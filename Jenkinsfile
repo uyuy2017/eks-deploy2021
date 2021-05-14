@@ -2,11 +2,11 @@ pipeline {
   agent any
   stages {
    
-    stage('build docker image') {
+      stage('build docker image') {
       steps {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
-              sudo docker build -t uyuy2015/eks-blue-greendeployment .
+              docker build -t uyuy2015/eks-blue-greendeployment:test .
              '''
         }
 
@@ -15,9 +15,10 @@ pipeline {
 
     stage('push docker image to dockerhub repository') {
       steps {
-        withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
-              sudo -u $dockerhub docker push uyuy2015/eks-blue-greendeployment 
+               docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+               docker push uyuy2015/eks-blue-greendeployment:test 
                '''
         }
 

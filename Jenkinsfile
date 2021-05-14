@@ -6,7 +6,7 @@ pipeline {
       steps {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
-              docker build -t uyuy2015/eks-blue-greendeployment:test .
+              docker build -t uyuy2015/eks-blue-greendeployment:test2 .
              '''
         }
 
@@ -18,7 +18,7 @@ pipeline {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-               docker push uyuy2015/eks-blue-greendeployment:test 
+               docker push uyuy2015/eks-blue-greendeployment:test2 
                '''
         }
 

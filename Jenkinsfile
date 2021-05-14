@@ -15,7 +15,7 @@ pipeline {
 
     stage('push docker image to dockerhub repository') {
       steps {
-        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
+        withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
           sh '''
                sudo docker push uyuy2015/eks-blue-greendeployment 
                '''

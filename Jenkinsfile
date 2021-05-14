@@ -17,8 +17,8 @@ pipeline {
       steps {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
-               docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-               docker push uyuy2015/eks-blue-greendeployment:test 
+               sudo docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+               sudo docker push uyuy2015/eks-blue-greendeployment:test 
                '''
         }
 
@@ -29,7 +29,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''
-                      aws eks update-kubeconfig --name jenkinstest2
+                      sudo aws eks update-kubeconfig --name jenkinstest2
                    '''
         }
 
@@ -40,7 +40,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''
-                      kubectl config use-context arn:aws:eks:us-east-2:332819193662:cluster/jenkinstest2
+                      sudo kubectl config use-context arn:aws:eks:us-east-2:332819193662:cluster/jenkinstest2
                    '''
         }
 
@@ -51,7 +51,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''
-                      kubectl apply -f ./blue-replication-controller.yaml
+                      sudo kubectl apply -f ./blue-replication-controller.yaml
                    '''
         }
 
@@ -62,7 +62,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''
-                      kubectl apply -f ./green-replication-controller.yaml
+                      sudo kubectl apply -f ./green-replication-controller.yaml
                    '''
         }
 
@@ -73,7 +73,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''
-                      kubectl apply -f ./blue-service.yaml
+                      sudo kubectl apply -f ./blue-service.yaml
                    '''
         }
 
@@ -90,7 +90,7 @@ pipeline {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
           sh '''
-                      kubectl apply -f ./green-service.yaml
+                      sudo kubectl apply -f ./green-service.yaml
                    '''
         }
 

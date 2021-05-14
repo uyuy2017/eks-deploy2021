@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: green
-        image: sidiali/capstone_repo:capstone_app
+        image: uyuy2015/eks-blue-greendeployment:test8
         ports:
         - containerPort: 80

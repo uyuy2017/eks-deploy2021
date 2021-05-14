@@ -6,7 +6,7 @@ pipeline {
       steps {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
-              docker build -t uyuy2015/eks-blue-greendeployment:test .
+              docker build -t uyuy2015/eks-blue-greendeployment:test8 .
              '''
         }
 
@@ -18,7 +18,7 @@ pipeline {
         withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
           sh '''
                docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-               docker push uyuy2015/eks-blue-greendeployment:test 
+               docker push uyuy2015/eks-blue-greendeployment:test8
                '''
         }
 
@@ -36,16 +36,16 @@ pipeline {
       }
     }
 
-    stage('Set current kubectl context') {
-      steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
-          sh '''
-                      kubectl config use-context arn:aws:eks:us-east-2:332819193662:cluster/jenkinstest2
-                   '''
-        }
+    //stage('Set current kubectl context') {
+     // steps {
+    //    withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
+     //     sh '''
+     //                 kubectl config use-context arn:aws:eks:us-east-2:332819193662:cluster/jenkinstest2
+     //              '''
+      //  }
 
-      }
-    }
+   //   }
+  //  }
 
     stage('create replication controller for blue app') {
       steps {

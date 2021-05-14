@@ -17,7 +17,7 @@ pipeline {
       steps {
         withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
           sh '''
-               sudo docker push uyuy2015/eks-blue-greendeployment 
+              docker push uyuy2015/eks-blue-greendeployment 
                '''
         }
 

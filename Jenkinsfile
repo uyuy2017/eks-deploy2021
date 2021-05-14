@@ -1,30 +1,7 @@
 pipeline {
   agent any
   stages {
-   
-      stage('build docker image') {
-      steps {
-        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
-          sh '''
-              docker build -t uyuy2015/eks-blue-greendeployment:test2 .
-             '''
-        }
-
-      }
-    }
-
-    stage('push docker image to dockerhub repository') {
-      steps {
-        withCredentials(bindings: [[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
-          sh '''
-               docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-               docker push uyuy2015/eks-blue-greendeployment:test2 
-               '''
-        }
-
-      }
-    }
-    
+       
      stage('create replication controller for blue app') {
       steps {
         withAWS(region: 'us-east-2', credentials: 'MyCredentials') {

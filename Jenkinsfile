@@ -71,7 +71,7 @@ pipeline {
 
     stage('create service for blue app and make loadbalancer point to it') {
       steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'MyCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh '''
                       kubectl apply -f ./blue-service.yaml
                    '''
@@ -88,7 +88,7 @@ pipeline {
 
     stage('create service for green app and make loadbalancer point to it') {
       steps {
-        withAWS(region: 'us-east-2', credentials: 'MyCredentials') {
+        withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'MyCredentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
           sh '''
                       kubectl apply -f ./green-service.yaml
                    '''
